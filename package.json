@@ -1,0 +1,20 @@
+{
+  "name": "@webpart/process-compat",
+  "version": "0.1.5",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "micty",
+  "email": "mictydeng@qq.com",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-part/process-compat.git"
+  },
+  "dependencies": {
+    "@webpart/master": "^0.1.2",
+    "@webpart/process-babel": "^0.1.0",
+    "@webpart/process-template": "^0.1.0"
+  }
+}
