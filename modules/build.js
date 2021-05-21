@@ -5,6 +5,7 @@
 
 
 
+const console = require('@webpart/console');
 const babel = require('@webpart/process-babel');
 const template = require('@webpart/process-template');
 const master = require('@webpart/master');
