@@ -1,13 +1,13 @@
 ﻿/**
 * 针对兼容模式的处理。
-* 即命令行中使用了 `node watch compat` 开头的的命令。
+* 即命令行中使用了 `webpart watch --compat` 的命令。
 * 主要完成的功能：
 *   1，对最外层的 `<template>` 标签内的 innerHTML 用一层 `<script type="text/template"></script>` 包裹起来。
 *   2，删除所有元数据 `data-meta` 属性里含有 `mode="normal"` 的 `<script>` 标签。
 *   3，对符合条件的 `<script>` 标签做 babel 转码，修正 `src` 属性以引用到 babel 版本的文件。
 *  
 * 针对独立打包的方式，
-* 即命令行中使用了 `node watch compat pack` 开头的的命令，
+* 即命令行中使用了 `webpaet watch --compat --pack` 的命令，
 * 主要完成的功能：
 *   1，对合并后、压缩前的 html 包文件进行 `<template>` 标签转换，参考上述的第 1 点。
 *   2，对合并后、压缩前的 js 包文件进行 babel 转换。
@@ -44,8 +44,8 @@ module.exports = function (mode, website) {
         *   且对符合条件的 js 文件做 babel 转码，改写 `<script>` 标签以引用到 babel 版本的文件。
         */
         'js-link': function (file, html, data) {
-            var item = data.item || {};
-            var meta = item.meta || {};
+            let item = data.item || {};
+            let meta = item.meta || {};
 
             //显示指定为其它模式的，则删除该 `<script>` 标签。
             if (meta.mode && meta.mode != mode) {

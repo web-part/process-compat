@@ -1,6 +1,6 @@
 ﻿/**
 * 针对兼容模式的处理。
-* 即命令行中使用了 `node build compat` 开头的的命令。
+* 即命令行中使用了 `webpart build --compat` 的命令。
 */
 
 
