@@ -1,6 +1,6 @@
 {
   "name": "@webpart/process-compat",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "",
   "main": "index.js",
   "scripts": {},
@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@webpart/console": "^2.1.1",
-    "@webpart/master": "^2.2.2",
+    "@webpart/master": "^2.2.8",
     "@webpart/process-babel": "^1.0.7",
     "@webpart/process-template": "^1.0.4"
   }

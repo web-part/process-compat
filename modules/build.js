@@ -6,14 +6,14 @@
 
 
 const console = require('@webpart/console');
-const babel = require('@webpart/process-babel');
-const template = require('@webpart/process-template');
-const master = require('@webpart/master');
+const Babel = require('@webpart/process-babel');
+const Template = require('@webpart/process-template');
+const Master = require('@webpart/master');
 
 
 module.exports = function (mode, website) {
-    const JsLink = master.require('JsLink');
-    const Lines = master.require('Lines');
+    const JsLink = Master.require('JsLink');
+    const Lines = Master.require('Lines');
 
 
     website.on('parse', {
@@ -42,7 +42,7 @@ module.exports = function (mode, website) {
                 'dir': data.dir,
             });
 
-            let no$line = babel.build(mode, links); //返回修改的行号与内容。
+            let no$line = Babel.build(mode, links); //返回修改的行号与内容。
 
             Object.keys(no$line).forEach(function (no) {
                 lines[no] = no$line[no];
@@ -62,7 +62,7 @@ module.exports = function (mode, website) {
         * 对输出的 html 包作转换。
         */
         'html-block': function (content, data) {
-            return template.transform(content, data.list);
+            return Template.transform(content, data.list);
         },
 
         /**
@@ -70,7 +70,7 @@ module.exports = function (mode, website) {
         */
         'js-block': function (content, data) {
             console.log('package: babel 转码合并后的内容'.bgCyan, 'md5:', data.md5.cyan);
-            return babel.transform(content, data);
+            return Babel.transform(content, data);
         },
     });
 
@@ -83,7 +83,7 @@ module.exports = function (mode, website) {
         'js-block': function (content, data) {
             console.log('babel 转码合并后的内容'.bgCyan, 'md5:', data.md5.cyan);
 
-            return babel.transform(content, data);
+            return Babel.transform(content, data);
         },
     });
 
@@ -99,7 +99,7 @@ module.exports = function (mode, website) {
         * 如果返回新的 html(包括空字符串)，则以它作为最终的生成内容。
         */
         'master': function (dest, html, data) {
-            return template.transform(html, dest);
+            return Template.transform(html, dest);
         },
     });
 

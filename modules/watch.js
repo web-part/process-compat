@@ -16,11 +16,22 @@
 
 
 const console = require('@webpart/console');
-const babel = require('@webpart/process-babel');
-const template = require('@webpart/process-template');
+const Babel = require('@webpart/process-babel');
+const Template = require('@webpart/process-template');
 
 
-module.exports = function (mode, website) {
+/**
+* 
+* @param {string} mode 使用的模式。 
+* @param {WebSite} website WebSite 实例对象。
+* @param {Object} opt 配置对象。
+*   opt = {
+*       dir: '',        //必选，进行 babel 转换后的输出目录（相对于 website.htdocs），最终结果如 `htdocs/babel/`.
+*       cover: false,   //可选，是否使用 istanbul 进行代码覆盖率插桩。
+*       comment: false, //可选，是否在输出的内容顶部生成注释。
+*   };
+*/
+module.exports = function (mode, website, opt) {
 
     website.on('render', {
         /**
@@ -32,7 +43,7 @@ module.exports = function (mode, website) {
         * 如果返回新的 html(包括空字符串)，则以它作为最终的生成内容。
         */
         'master': function (dest, html, data) {
-            return template.transform(html, dest);
+            return Template.transform(html, dest);
         },
 
 
@@ -47,21 +58,28 @@ module.exports = function (mode, website) {
             let item = data.item || {};
             let meta = item.meta || {};
 
-            //显示指定为其它模式的，则删除该 `<script>` 标签。
+            //显式指定为其它模式的，则删除该 `<script>` 标签。
             if (meta.mode && meta.mode != mode) {
                 return ''; //返回空字符串，表示删除内容。
             }
 
-            //显式指定禁用 babel转码的。
-            if (meta.babel == 'false' || meta.babel == 'no') {
+
+            let babel = meta.babel == 'no' ? false : true;      //除非当前 script 标签指定为 no，否则都作 bable 转换。
+            let cover = meta.cover == 'no' ? false : opt.cover; //除非当前 script 标签指定为 no，否则以参数的为准。
+
+            if (!babel && !cover) {
                 return;
             }
 
 
             //符合条件的，作 babel 转码，且修正 `<script>` 标签以引用到 babel 版本的文件。
-            return babel.render(file, data, {
-                'htdocs': website.htdocs,       //网站的根目录。
-                'dir': 'babel/',                // babel 文件的输出目录，相对于 htdocs。 最终结果如 `htdocs/babel/`
+            return Babel.render(file, data, {
+                'htdocs': website.htdocs,   //网站的根目录。
+                'dir': opt.dir,             // babel 文件的输出目录，相对于 htdocs。 最终结果如 `htdocs/babel/`。
+
+                'babel': babel,
+                'cover': cover,
+                'comment': opt.comment,
             });
         },
     });
@@ -76,7 +94,7 @@ module.exports = function (mode, website) {
         * 对输出的 html 包作转换。
         */
         'html-block': function (content, data) {
-            return template.transform(content, data.list);
+            return Template.transform(content, data.list);
         },
 
         /**
@@ -84,7 +102,13 @@ module.exports = function (mode, website) {
         */
         'js-block': function (content, data) {
             console.log('package: babel 转码合并后的内容'.bgCyan, 'md5:', data.md5.cyan);
-            return babel.transform(content, data);
+
+            return Babel.transform(content, {
+                'babel': true,
+                'cover': opt.cover,
+                'comment': opt.comment,
+                ...data,
+            });
         },
     });
 

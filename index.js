@@ -8,11 +8,11 @@ module.exports = exports = {
 
     mode: 'compat',//兼容模式。
 
-    watch(website) { 
-        watch(exports.mode, website);
+    watch(website, opt) {
+        watch(exports.mode, website, opt);
     },
 
-    build(website) { 
+    build(website) {
         build(exports.mode, website);
     },
 };
