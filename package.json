@@ -1,6 +1,6 @@
 {
   "name": "@webpart/process-compat",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "",
   "main": "index.js",
   "scripts": {},
@@ -13,8 +13,8 @@
     "url": "https://github.com/web-part/process-compat.git"
   },
   "dependencies": {
-    "@webpart/console": "^2.1.1",
-    "@webpart/master": "^2.2.8",
+    "@webpart/console": "^3.0.2",
+    "@webpart/master": "^2.2.9",
     "@webpart/process-babel": "^1.0.7",
     "@webpart/process-template": "^1.0.4"
   }
